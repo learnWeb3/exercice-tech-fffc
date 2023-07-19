@@ -4,26 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSV convert</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>CSV CONVERT</h1>
-    <div className="preamble">
+    <div class="title">
+        <h1><span>CSV </span>CONVERT</h1>
+    </div>
+    <div class="preamble">
     <h2>Convertisseur de fichier</h2>
     <p>Convertissez vos fichiers fixes comprenant des données utilisateurs 
         (nom, prénom, date de naissance et poids)
-        au format csv suivant : Date de naissance,Prénom,Nom,Poids</p>
+        au format csv suivant : Date de naissance, Prénom, Nom, Poids</p>
     </div>
-    <div className="Card">
-        <button className="choose">choisir le fichier</button>
+    <div class="card">
+        <button className="choose">Choisir le fichier</button>
     <h3>Séléctionnez votre fichier à convertir</h3>
-    <ul className="list">les données du fichiers doivent comprendre :
+    <ul class="list">les données du fichiers doivent comprendre :
         <li>Une date de naissance</li>
-        <li>Le prénom</li>
-        <li>Le nom</li>
-        <li>Le poids</li>
+        <li>Un prénom</li>
+        <li>Un nom</li>
+        <li>Un poids</li>
     </ul>
-    <button className="convert">Convertir le fichier</button>
+    <button class="convert">Convertir le fichier</button>
     <p>Le téléchargement du fichier sera automatiquement lancé après la conversion du fichier
     </p>
 </div>
