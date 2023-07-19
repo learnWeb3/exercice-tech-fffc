@@ -1,11 +1,11 @@
 // import.js
 const dayjs = require("dayjs");
-const { log } = require("console");
 const fs = require("fs");
-const { writeFile } = require("fs/promises");
+const { writeFile, rename } = require("fs/promises");
 let errors = [];
+let hasErrors = false;
 
-// Valeur max des chaine de caractères
+// Valeur max des chaines de caractères
 const MAX_FIRSTNAME_LENGTH = 15;
 const MAX_LASTNAME_LENGTH = 15;
 const MAX_WEIGHT_LENGTH = 5;
@@ -18,20 +18,41 @@ async function readAllFiles() {
     const inputDirectory = "../InputData";
     const files = fs.readdirSync(inputDirectory);
 
-    files.forEach(async (file) => {
+    // Je crée une boucle pour lire chaque fichier
+    for (const file of files) {
       const filePath = `${inputDirectory}/${file}`;
       const fileContent = fs.readFileSync(filePath, "utf-8");
 
       const processedData = await processThefile(file, fileContent);
 
-      const outputDirectory = "../OutputData";
-      if (!fs.existsSync(outputDirectory)) {
-        fs.mkdirSync(outputDirectory);
-      }
+      // Je définis dans quel dossier iront mes fichiers traités
+      const outputDirectory = hasErrors
+        ? "../OutputDataError"
+        : "../OutputData";
+      await createDirectory(outputDirectory);
 
-      const outputFile = `${outputDirectory}/${file.replace(".txt", ".csv")}`;
-      await writeNewCSV(outputFile, processedData);
-    });
+      // Je renomme mes fichiers txt en fichier csv après l'execution de ma méthode
+      const outputFile = file.replace(/\.[^.]+$/, ".csv");
+      const outputFilePath = `${outputDirectory}/${outputFile}`;
+      await writeNewCSV(outputFilePath, processedData);
+
+      // Je crée une condition pour envoyer les fichiers qui ont une erreur dans un dossier différent
+      if (hasErrors) {
+        const sourceFile = outputFilePath;
+        const targetFile = `../OutputDataError/${outputFile}`;
+        await rename(sourceFile, targetFile);
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function createDirectory(directory) {
+  try {
+    if (!fs.existsSync(directory)) {
+      await fs.promises.mkdir(directory, { recursive: true });
+    }
   } catch (e) {
     console.error(e);
   }
@@ -60,11 +81,7 @@ async function processThefile(filename, fileContent) {
       const newLine = dataLine.join(NEW_SEPARATOR);
       // J'ajoute mes données mises à jours dans un nouveau tableau
       newListlines.push(newLine);
-
-      // console.log("data line updated :", dataLine);
     });
-
-    // console.log("ma nouvelle liste de lignes : ", newListlines);
     console.log("liste des erreurs : ", errors);
 
     newListlines = ["Date de naissance,Prénom,Nom,Poids", ...newListlines];
@@ -89,6 +106,7 @@ function updateData(refData, filename, numLine) {
       line: numLine,
       desc: "des données sont manquantes",
     });
+    hasErrors = true; // je définis hasErrors sur true en cas d'erreur
     return [];
   }
 
@@ -109,6 +127,7 @@ function updateData(refData, filename, numLine) {
       line: numLine,
       desc: "le poids n'est pas une valeur numérique valide",
     });
+    hasErrors = true;
   } else {
     updatedData[3] = currentWeight;
   }
@@ -116,12 +135,12 @@ function updateData(refData, filename, numLine) {
 }
 
 // Appel de la méthode pour réécrire le fichier en csv
-async function writeNewCSV(fileName, fileContent) {
+async function writeNewCSV(filePath, fileContent) {
   try {
-    await writeFile(fileName, fileContent, {
+    await writeFile(filePath, fileContent, {
       encoding: "utf8",
     });
-    console.log(`Wrote data to ${fileName}`);
+    console.log(`Wrote data to ${filePath}`);
   } catch (error) {
     console.error(`Got an error trying to write the file: ${error.message}`);
   }
