@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 2345;
+const PORT = 22445;
 
 // on va configurer Express pour pouvoir utiliser le moteur de vues EJS
 app.set("view engine", "ejs");
