@@ -64,7 +64,7 @@ p {
     margin-top: 2rem;
 }
 
-button {
+label{
     background-color: #63b2e1;
     border-radius: 30px;
     width: 20vh;
@@ -85,9 +85,22 @@ h3 {
     text-align: center;
 }
 
-                        /* Style de mon footer */
+                
 .list {
     font-size: 0.6rem;
 }
 
-                        /* Style de mon footer */
+button{
+    background-color: #63b2e1;
+    border-radius: 30px;
+    width: 20vh;
+    height: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    border: none;
+    color: black;
+    font-size: 1rem;
+}
