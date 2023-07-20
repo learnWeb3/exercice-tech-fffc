@@ -38,25 +38,40 @@
     <p>Le téléchargement du fichier sera automatiquement lancé après la conversion du fichier
     </p>
     </div>
-    <!-- Script pour effectuer une requête AJAX au serveur -->
+    <!-- Script -->
     <script>
-        function convertFiles() {
-          const xhr = new XMLHttpRequest();
 
-          xhr.overrideMimeType("application/json")
-          xhr.open('POST', '/upload', true);
-          xhr.onreadystatechange = function (req, url) {
-            console.log('!!!!!!req = ', req.responseJSON)            
-            
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-              alert('Fichiers convertis avec succès !');
-            } else {
-              alert('Une erreur est survenue lors de la conversion des fichiers.');
-            }
-          };
-          xhr.send();
-        }
-      </script>
+    // Méthode pour afficher les erreurs dans une alerte
+  function displayErrors(errors) {
+    let errorMessage = "Erreurs de conversion :\n";
+    errors.forEach((error) => {
+      errorMessage += `Fichier : ${error.filename}, Ligne : ${error.line}, Description : ${error.desc}\n`;
+    });
+    alert(errorMessage);
+  }
+// Méthode pour effectuer une requête API au serveur
+function convertFiles() {
+    fetch('/upload', {
+      method: 'POST',
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('Fichiers convertis avec succès !');
+      } else {
+        response.json().then(errors => {
+          displayErrors(errors);
+        }).catch(error => {
+          alert('Une erreur est survenue lors de la conversion des fichiers.');
+          console.error('Erreur :', error);
+        });
+      }
+    })
+    .catch(error => {
+      alert('Une erreur est survenue lors de la conversion des fichiers.');
+      console.error('Erreur :', error);
+    });
+  }
+</script>
     
     
 </body>

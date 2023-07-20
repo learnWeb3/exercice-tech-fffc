@@ -13,11 +13,20 @@ const MAX_WEIGHT_LENGTH = 5;
 
 const NEW_SEPARATOR = ",";
 
+// J'ajoute une fonction pour réinitialiser les erreurs pour chaque nouveau fichier
+function resetErrors() {
+  errors = [];
+  hasErrors = false;
+}
+
 // J'ajoute en premier lieu une fonction qui me permettra de créer une boucle et de lire tous les fichiers contenus dans le dossier InputData
 async function readAllFiles() {
   try {
     const inputDirectory = path.join(__dirname, "../InputData");
     const files = fs.readdirSync(inputDirectory);
+
+    // Réinitialiser les erreurs pour chaque nouveau fichier
+    resetErrors();
 
     // Je crée une boucle pour lire chaque fichier
     for (const file of files) {
@@ -46,10 +55,10 @@ async function readAllFiles() {
         await rename(sourceFile, targetFile);
       }
     }
+    return errors; // Renvoyer la variable 'errors' en résultat
   } catch (e) {
     console.error(e);
   }
-  return errors;
 }
 
 async function createDirectory(directory) {
@@ -86,7 +95,7 @@ async function processThefile(filename, fileContent) {
       // J'ajoute mes données mises à jours dans un nouveau tableau
       newListlines.push(newLine);
     });
-    console.log("liste des erreurs : ", errors);
+    // console.log("liste des erreurs : ", errors);
 
     newListlines = ["Date de naissance,Prénom,Nom,Poids", ...newListlines];
 

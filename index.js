@@ -23,13 +23,11 @@ app.get("/", (request, response) => {
   response.render("home");
 });
 // Nouvelle route pour gérer le téléversement de fichier
-app.post("/upload", uploadMiddleware, (req, res) => {
-  // Appel de la méthode pour lire tous les fichiers du dossier InputData
-
+app.post("/upload", uploadMiddleware, async (req, res) => {
   try {
-    const errors = readAllFiles();
-    res.sendStatus(200); // Répondre avec un statut de succès
-    return errors;
+    const errors = await readAllFiles(); // Utilisation de 'await' pour attendre la résolution de la promesse
+    res.json(errors);
+    console.log(errors);
   } catch (error) {
     res.sendStatus(500); // Répondre avec un statut d'erreur 500
   }
