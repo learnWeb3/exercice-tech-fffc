@@ -18,8 +18,9 @@
         au format csv suivant : Date de naissance, Prénom, Nom, Poids</p>
     </div>
     <div class="card">
+       
     <label for="file" class="label">Choisir le fichier</label>
-    <input type="file" id="file" accept=".txt, .csv" hidden className="choose"></input>
+    <input type="file" id="file" accept=".txt, .csv" hidden className="choose" ></input>
     <h3>Séléctionnez votre fichier à convertir</h3>
     <ul class="list">les données du fichiers doivent comprendre :
         <li>Une date de naissance</li>
@@ -27,10 +28,24 @@
         <li>Un nom</li>
         <li>Un poids</li>
     </ul>
-    <button class="convert">Convertir le fichier</button>
+    <button class="convert" onclick="convertFiles()">Convertir le fichier</button>
     <p>Le téléchargement du fichier sera automatiquement lancé après la conversion du fichier
     </p>
-</div>
+    </div>
+    <!-- Script pour effectuer une requête AJAX au serveur -->
+    <script>
+        function convertFiles() {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', '/upload', true);
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+              console.log('Fichiers convertis avec succès !');
+            }
+          };
+          xhr.send();
+        }
+      </script>
+    
     
 </body>
 </html>

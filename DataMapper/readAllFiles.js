@@ -2,6 +2,7 @@
 const dayjs = require("dayjs");
 const fs = require("fs");
 const { writeFile, rename } = require("fs/promises");
+const path = require("path");
 let errors = [];
 let hasErrors = false;
 
@@ -15,7 +16,7 @@ const NEW_SEPARATOR = ",";
 // J'ajoute en premier lieu une fonction qui me permettra de créer une boucle et de lire tous les fichiers contenus dans le dossier InputData
 async function readAllFiles() {
   try {
-    const inputDirectory = "../InputData";
+    const inputDirectory = path.join(__dirname, "../InputData");
     const files = fs.readdirSync(inputDirectory);
 
     // Je crée une boucle pour lire chaque fichier
@@ -145,5 +146,7 @@ async function writeNewCSV(filePath, fileContent) {
     console.error(`Got an error trying to write the file: ${error.message}`);
   }
 }
-// On appelle la fonction pour lire tous les fichiers du dossier InputData
-readAllFiles();
+// // On appelle la fonction pour lire tous les fichiers du dossier InputData
+// readAllFiles();
+
+exports.readAllFiles = readAllFiles;
