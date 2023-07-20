@@ -18,9 +18,15 @@
         au format csv suivant : Date de naissance, Prénom, Nom, Poids</p>
     </div>
     <div class="card">
-       
+     <script type="module">
+  // Importer la fonction depuis le fichier handleFileSelect.js
+  import { handleFileSelect } from "/js/handleFileSelect.js";
+
+   // Attacher l'événement onchange à l'élément input
+   document.getElementById("file").addEventListener("change", handleFileSelect);
+</script>
     <label for="file" class="label">Choisir le fichier</label>
-    <input type="file" id="file" accept=".txt, .csv" hidden className="choose" ></input>
+    <input type="file" id="file" accept=".txt, .csv, .doc" hidden className="choose"  ></input>
     <h3>Séléctionnez votre fichier à convertir</h3>
     <ul class="list">les données du fichiers doivent comprendre :
         <li>Une date de naissance</li>
