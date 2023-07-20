@@ -22,12 +22,10 @@ app.use(express.static("public"));
 app.get("/", (request, response) => {
   response.render("home");
 });
-// Nouvelle route pour gérer le téléversement de fichier
 app.post("/upload", uploadMiddleware, async (req, res) => {
   try {
     const errors = await readAllFiles(); // Utilisation de 'await' pour attendre la résolution de la promesse
-    res.json(errors);
-    console.log(errors);
+    res.json(errors); // Renvoyer les erreurs sous forme de tableau JSON
   } catch (error) {
     res.sendStatus(500); // Répondre avec un statut d'erreur 500
   }

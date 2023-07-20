@@ -59,7 +59,7 @@ function convertFiles() {
         alert('Fichiers convertis avec succès !');
       } else {
         response.json().then(errors => {
-          displayErrors(errors);
+          displayErrors(errors); //  Appeler la fonction displayErrors avec les erreurs renvoyées par le serveur
         }).catch(error => {
           alert('Une erreur est survenue lors de la conversion des fichiers.');
           console.error('Erreur :', error);
