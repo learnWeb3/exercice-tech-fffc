@@ -25,8 +25,14 @@ app.get("/", (request, response) => {
 // Nouvelle route pour gérer le téléversement de fichier
 app.post("/upload", uploadMiddleware, (req, res) => {
   // Appel de la méthode pour lire tous les fichiers du dossier InputData
-  readAllFiles();
-  res.sendStatus(200); // Répondre avec un statut de succès
+
+  try {
+    const errors = readAllFiles();
+    res.sendStatus(200); // Répondre avec un statut de succès
+    return errors;
+  } catch (error) {
+    res.sendStatus(500); // Répondre avec un statut d'erreur 500
+  }
 });
 
 app.listen(PORT, () => {

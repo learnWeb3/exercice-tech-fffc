@@ -21,15 +21,17 @@ async function readAllFiles() {
 
     // Je crée une boucle pour lire chaque fichier
     for (const file of files) {
+      hasErrors = false; // !!!RESET de la variable à false pour chaque nouveau fichier traité
       const filePath = `${inputDirectory}/${file}`;
       const fileContent = fs.readFileSync(filePath, "utf-8");
 
       const processedData = await processThefile(file, fileContent);
 
       // Je définis dans quel dossier iront mes fichiers traités
+      console.log("hasErrors : ", hasErrors);
       const outputDirectory = hasErrors
-        ? "../OutputDataError"
-        : "../OutputData";
+        ? "public/OutputDataError"
+        : "public/OutputData";
       await createDirectory(outputDirectory);
 
       // Je renomme mes fichiers txt en fichier csv après l'execution de ma méthode
@@ -40,13 +42,14 @@ async function readAllFiles() {
       // Je crée une condition pour envoyer les fichiers qui ont une erreur dans un dossier différent
       if (hasErrors) {
         const sourceFile = outputFilePath;
-        const targetFile = `../OutputDataError/${outputFile}`;
+        const targetFile = `public/OutputDataError/${outputFile}`;
         await rename(sourceFile, targetFile);
       }
     }
   } catch (e) {
     console.error(e);
   }
+  return errors;
 }
 
 async function createDirectory(directory) {
