@@ -35,8 +35,9 @@
         <li>Un poids</li>
     </ul>
     <button class="convert" onclick="convertFiles()">Convertir le/les fichier(s)</button>
-    <p>Le téléchargement du fichier sera automatiquement lancé après la conversion du fichier
+    <p>Si la conversion a réussi les fichiers seront téléchargé automatiquement
     </p>
+
     </div>
     <!-- Script -->
     <script>
@@ -56,6 +57,15 @@ function convertFiles() {
     })
     .then(response => {
       if (response.ok) {
+
+         // Une fois les fichiers convertis, déclencher le téléchargement en utilisant l'élément <a>
+          const downloadLink = document.createElement('a');
+        downloadLink.href = '/download'; // Lien vers l'endpoint de téléchargement
+        downloadLink.download = 'fichiers_convertis.zip'; // Nom du fichier à télécharger
+
+        // Simuler un clic sur le lien de téléchargement pour déclencher le téléchargement
+        downloadLink.click();
+
         alert('Fichiers convertis avec succès !');
       } else {
         response.json().then(errors => {
