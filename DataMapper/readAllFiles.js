@@ -158,7 +158,5 @@ async function writeNewCSV(filePath, fileContent) {
     console.error(`Got an error trying to write the file: ${error.message}`);
   }
 }
-// // On appelle la fonction pour lire tous les fichiers du dossier InputData
-// readAllFiles();
 
 exports.readAllFiles = readAllFiles;

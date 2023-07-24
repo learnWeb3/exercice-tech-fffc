@@ -67,18 +67,16 @@ function convertFiles() {
         downloadLink.click();
 
         alert('Fichiers convertis avec succès !');
-      } else {
         response.json().then(errors => {
           displayErrors(errors); //  Appeler la fonction displayErrors avec les erreurs renvoyées par le serveur
         }).catch(error => {
           alert('Une erreur est survenue lors de la conversion des fichiers.');
           console.error('Erreur :', error);
         });
+      } else {
+        alert('Une erreur est survenue le fichier n\'a pas pu être converti.');
+        console.error('Erreur :', response);
       }
-    })
-    .catch(error => {
-      alert('Une erreur est survenue lors de la conversion des fichiers.');
-      console.error('Erreur :', error);
     });
   }
 </script>

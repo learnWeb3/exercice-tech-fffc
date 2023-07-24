@@ -31,6 +31,7 @@ app.post("/upload", uploadMiddleware, async (req, res) => {
     res.sendStatus(500); // Répondre avec un statut d'erreur 500
   }
 });
+// Création d'une route pour le téléchargement du fichier ZIP
 app.get("/download", async (req, res) => {
   const outputFolderPath = path.join(__dirname, "public", "OutputData");
   const tempFolderPath = path.join(__dirname, "temp"); // Dossier temporaire pour stocker l'archive ZIP
