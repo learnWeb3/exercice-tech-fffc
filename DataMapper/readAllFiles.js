@@ -37,7 +37,7 @@ async function readAllFiles() {
       const processedData = await processThefile(file, fileContent);
 
       // Je définis dans quel dossier iront mes fichiers traités
-      console.log("hasErrors : ", hasErrors);
+      // console.log("hasErrors : ", hasErrors);
       const outputDirectory = hasErrors
         ? "public/OutputDataError"
         : "public/OutputData";
