@@ -77,7 +77,12 @@ label{
     border: none;
     color: black;
     font-size: 1rem;
+    cursor: pointer;
     
+}
+
+label:hover{
+    background-color: #6ed6d2;
 }
 
 h3 {
@@ -103,4 +108,9 @@ button{
     border: none;
     color: black;
     font-size: 1rem;
+    cursor: pointer;
 }
+button:hover{
+    background-color: #6ed6d2;
+}
+
