@@ -1,3 +1,4 @@
+// TODO: Je crée une méthode pour créer une API pour téléverser les fichiers
 export function handleFileSelect(event) {
   const file = event.target.files[0];
   if (!file) return; // Si aucun fichier n'est sélectionné, ne rien faire
@@ -10,6 +11,7 @@ export function handleFileSelect(event) {
     body: formData,
   })
     .then((response) => {
+      // Je crée des conditions pour afficher un message de succès ou d'erreur après le téléversement du fichier
       if (response.ok) {
         const oPanelMessage = document.getElementById("panel_message");
         const oMessageSuccess = document.getElementById("message_success");

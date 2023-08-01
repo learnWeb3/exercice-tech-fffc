@@ -1,3 +1,5 @@
+// TODO : Je crée un algorythme qui me permet de convertir mes fichiers fixe en fichier csv
+
 // import.js
 const dayjs = require("dayjs");
 const fs = require("fs");
@@ -6,6 +8,7 @@ const path = require("path");
 let errors = [];
 let hasErrors = false;
 
+// Je déclare les constantes
 // Valeur max des chaines de caractères
 const MAX_FIRSTNAME_LENGTH = 15;
 const MAX_LASTNAME_LENGTH = 15;
@@ -37,18 +40,17 @@ async function readAllFiles() {
       const processedData = await processThefile(file, fileContent);
 
       // Je définis dans quel dossier iront mes fichiers traités
-      // console.log("hasErrors : ", hasErrors);
       const outputDirectory = hasErrors
         ? "public/OutputDataError"
         : "public/OutputData";
       await createDirectory(outputDirectory);
 
-      // Je renomme mes fichiers txt en fichier csv après l'execution de ma méthode
+      // Je renomme le format de mes fichiers txt ou autre en fichier csv après l'execution de ma méthode writeNewCSV
       const outputFile = file.replace(/\.[^.]+$/, ".csv");
       const outputFilePath = `${outputDirectory}/${outputFile}`;
       await writeNewCSV(outputFilePath, processedData);
 
-      // Je crée une condition pour envoyer les fichiers qui ont une erreur dans un dossier différent
+      // Je crée une condition pour envoyer les fichiers qui ont une erreur dans un dossier différent après l'execution de ma méthode rename
       if (hasErrors) {
         const sourceFile = outputFilePath;
         const targetFile = `public/OutputDataError/${outputFile}`;
@@ -61,6 +63,7 @@ async function readAllFiles() {
   }
 }
 
+// Je crée une fonction pour créer un dossier s'il n'existe pas
 async function createDirectory(directory) {
   try {
     if (!fs.existsSync(directory)) {
@@ -71,6 +74,7 @@ async function createDirectory(directory) {
   }
 }
 
+// Je crée une fonction pour traiter le contenu des fichiers
 async function processThefile(filename, fileContent) {
   try {
     // Le contenu traité du fichier sera stocké dans cette variable
@@ -85,7 +89,6 @@ async function processThefile(filename, fileContent) {
 
       // Séparation des lignes en fonction des espaces j'ajoute trim pour supprimer les espaces à gauches et à droites
       let dataLine = line.trim().split(" ");
-      // console.log("data line :", dataLine);
 
       // Je met à jours les données
       dataLine = updateData(dataLine, filename, i + 1);
@@ -95,12 +98,12 @@ async function processThefile(filename, fileContent) {
       // J'ajoute mes données mises à jours dans un nouveau tableau
       newListlines.push(newLine);
     });
-    // console.log("liste des erreurs : ", errors);
 
+    // J'ajoute une ligne d'entête
     newListlines = ["Date de naissance,Prénom,Nom,Poids", ...newListlines];
 
     // Le contenu traité est stocké dans la variable processedData
-    processedData = newListlines.join("\r\n");
+    processedData = newListlines.join("\r\n"); // Je sépare mes données par un retour à la ligne
 
     // On retourne le contenu traité
     return processedData;
@@ -113,6 +116,7 @@ async function processThefile(filename, fileContent) {
 function updateData(refData, filename, numLine) {
   let updatedData = [...refData];
 
+  // Je crée une condition pour vérifier si le nombre de données est égal à 4 sinon je renvoie une erreur
   if (refData.length !== 4) {
     errors.push({
       filename: filename, // filename,
@@ -122,11 +126,13 @@ function updateData(refData, filename, numLine) {
     hasErrors = true; // je définis hasErrors sur true en cas d'erreur
     return [];
   }
-
+  // Je formatte la date grace à la librairie dayjs
   const formattedDate = dayjs(refData[0]).format("DD/MM/YYYY");
 
   updatedData[0] = formattedDate;
   // En une seule ligne => updateData[0] = dayjs(refData[0]).format("DD/MM/YYYY");
+
+  // Je précise le nombre de caractères max pour chaque champ
   updatedData[1] = updatedData[1].substring(0, MAX_FIRSTNAME_LENGTH);
   updatedData[2] = updatedData[2].substring(0, MAX_LASTNAME_LENGTH);
 
@@ -134,6 +140,7 @@ function updateData(refData, filename, numLine) {
     .replace(",", ".")
     .substring(0, MAX_WEIGHT_LENGTH);
 
+  //Je crée une condition pour vérifier si le poids est un nombre sinon je renvoie une erreur
   if (isNaN(currentWeight)) {
     errors.push({
       filename: filename, // filename,

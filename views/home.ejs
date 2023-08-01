@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSV convert</title>
+
+    <!-- Ajouter le fichier CSS -->
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -26,7 +28,7 @@
    document.getElementById("file").addEventListener("change", handleFileSelect);
 </script>
 
-    <!-- BEGIN GESTION DES MESSAGES -->
+    <!-- BEGIN GESTION DES MESSAGES DE SUCCES OU D'ERREUR-->
     <section id="panel_message" class="panel-message hidden">
       <div class="message success hidden" id="message_success">
         Message en cas de succès
@@ -48,10 +50,12 @@
         <li>Un poids</li>
     </ul>
 
-    
+    <!-- J'active la méthode convertFiles lorsque je clique sur le bouton -->
     <button class="convert" onclick="convertFiles()">Convertir le/les fichier(s)</button>
     <p>Si la conversion a réussi les fichiers seront téléchargés automatiquement
     </p>
+    <!-- Si la conversion a échoué, les erreurs seront affichées dans une alerte -->
+
     <!-- BEGIN GESTION DES MESSAGES -->
     <section id="panel_message_convert" class="panel-message hidden">
       <div class="message success hidden" id="message_success_convert">
@@ -61,13 +65,12 @@
         Message en cas d'erreur
       </div>
   </section>
-    <!-- END GESTION DES MESSAGES -->
-
-    </div>
-    <!-- Script -->
-    <script>
-
-    // Méthode pour afficher les erreurs dans une alerte
+  
+</div>
+// <!-- END GESTION DES MESSAGES -->
+<script>
+  
+  // Méthode pour afficher les erreurs dans une alerte
   function displayErrors(errors) {
     let errorMessage = "Erreurs de conversion :\n";
     errors.forEach((error) => {
@@ -78,9 +81,10 @@
     oMessageError.classList.remove('hidden');
     //alert(errorMessage);
   }
-// Méthode pour effectuer une requête API au serveur
-function convertFiles() {
 
+  // Méthode pour effectuer une requête API au serveur pour convertir les fichiers
+  function convertFiles() {
+    
     // Masquer le panel des messages 
     const oPanelMessage = document.getElementById('panel_message_convert');
     oPanelMessage.classList.add('hidden');
@@ -92,7 +96,7 @@ function convertFiles() {
       if (response.ok) {
 
          // Une fois les fichiers convertis, déclencher le téléchargement en utilisant l'élément <a>
-          const downloadLink = document.createElement('a');
+        const downloadLink = document.createElement('a');
         downloadLink.href = '/download'; // Lien vers l'endpoint de téléchargement
         downloadLink.download = 'fichiers_convertis.zip'; // Nom du fichier à télécharger
 
