@@ -4,6 +4,16 @@ Votre objectif est d'écrire un outil générique pour convertir des fichiers de
 
 N'hésitez pas à utiliser votre langage et vos librairies préférés si nécessaire (mais pas de librairies propriétaires, uniquement des librairies open source), faites un fork de ce projet et fournissez votre code complet sous forme de pull request (incluant les sources et les tests).
 
+## Rendu
+
+La solution a été divisée en plusieurs repository privés en raison de la présence explicite des informations d'identification Google dans le projet à des fins d'évaluation et pour un démarrage sans configuration.
+
+- Une interface utilisateur disponible [ici](https://github.com/learnWeb3/text-file-converter-app)
+- Un serveur Web JSON RPC pour envelopper l'utilitaire de conversion dans un serveur HTTP disponible [ici](https://github.com/learnWeb3/text-file-converter-api)
+- Une bibliothèque d'utilitaires gérant la conversion personnalisée de texte en CSV disponible [ici](https://github.com/learnWeb3/text-file-converter)
+
+Les droits aux repository mentionnés ci dessus seront donnés le jour du rendu. 
+
 ## Cas d'utilisation
 
 Nos fichiers au format fixe peuvent avoir n'importe quel nombre de colonnes
